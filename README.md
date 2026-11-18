@@ -41,6 +41,15 @@ Para a suíte de integração, inicie também ElasticMQ na porta 9324 em outro t
 
 ## Deploy
 
-O overlay `k8s/services/billing` inclui Deployment, Service, ServiceAccount, HPA, ConfigMap e probes. `REPLACE_WITH_*` e Secrets são preenchidos pelo bootstrap; tokens Mercado Pago são externos ao Git. `oficina-data-infra` provê DynamoDB/filas e `oficina-k8s-infra` provê o cluster. Consulte a [arquitetura completa](docs/architecture-phase4.md) e a [reconciliação de estorno](docs/runbooks/refund-reconciliation.md). Nenhum deploy AWS nem pagamento real foi comprovado até a execução autorizada.
+O overlay `k8s/services/billing` inclui Deployment, Service, ServiceAccount, HPA, ConfigMap e probes. `REPLACE_WITH_*` e Secrets são preenchidos pelo bootstrap; tokens Mercado Pago são externos ao Git. `oficina-data-infra` provê DynamoDB/filas e `oficina-k8s-infra` provê o cluster. Consulte a [arquitetura completa](docs/architecture-phase4.md) e a [reconciliação de estorno](docs/runbooks/refund-reconciliation.md). Deploy registrado com sucesso em [billing-ci #7](https://github.com/SirBartolomeu/oficina-billing/actions/runs/44181683756), com cobertura de linhas de 85,73%. O pagamento Sandbox não foi confirmado e nenhum pagamento real foi realizado.
+
+
+
+## Swagger, Postman e cobertura
+
+- Swagger local (Development): `http://localhost:8080/swagger`.
+- Collection Postman: [postman/oficina-billing.postman_collection.json](postman/oficina-billing.postman_collection.json). As rotas `/internal` exigem `X-Internal-Token`; preencha a variável Postman sem gravar segredo no arquivo.
+- Cobertura de linhas registrada: **85,73%**. Evidência e artefato: [billing-ci #7](https://github.com/SirBartolomeu/oficina-billing/actions/runs/44181683756).
+- O exemplo de reconciliação exige uma order Sandbox existente; não use credenciais de produção.
 
 Extraído do projeto oficina-mvp, preservando o histórico Git. Sem remote configurado.
