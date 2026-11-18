@@ -1,0 +1,148 @@
+{
+  "info": {
+    "name": "Oficina Billing Service",
+    "description": "Coleção simples para execução local em Development. Preencha variáveis e IDs no Postman; tokens permanecem locais e não devem ser salvos em commits. Valores default apontam apenas para localhost.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health readiness",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health/ready",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ]
+      },
+      "response": []
+    },
+    {
+      "name": "Criar orçamento",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/internal/budgets",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Internal-Token",
+            "value": "{{internalToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"workOrderId\": \"{{workOrderId}}\",\n  \"version\": 1,\n  \"branchId\": null,\n  \"lines\": [\n    {\n      \"itemId\": \"{{serviceId}}\",\n      \"name\": \"Serviço de diagnóstico\",\n      \"quantity\": 1,\n      \"unitPriceCents\": 12500\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Decidir orçamento",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/internal/budgets/{{workOrderId}}/1/decision",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Internal-Token",
+            "value": "{{internalToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"approved\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Consultar tentativa de pagamento",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/internal/payments/{{paymentAttemptId}}",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Internal-Token",
+            "value": "{{internalToken}}"
+          }
+        ]
+      },
+      "response": []
+    },
+    {
+      "name": "Reconciliar order (Sandbox configurado)",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/internal/payments/{{paymentAttemptId}}/reconcile",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Internal-Token",
+            "value": "{{internalToken}}"
+          }
+        ]
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "internalToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "workOrderId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "paymentAttemptId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "serviceId",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
